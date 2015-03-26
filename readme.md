@@ -11,6 +11,8 @@ $ npm install --save eflex/icontact
 
 
 ## Usage
+```javascript
+
 var config = {
   appId: appid,
   username: username,
@@ -19,7 +21,7 @@ var config = {
   clientFolderId: clientfolderid
 }
 
-```javascript
+// INITIALIZE ICONTACT
 var icontact = new iContact(config)
 
 var list = icontact.List()

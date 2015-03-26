@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/eflex/icontact",
   "dependencies": {
-    "co": "^4.4.0",
     "request": "^2.53.0"
   }
 }
