@@ -2,7 +2,7 @@
   "name": "icontact",
   "version": "0.0.1",
   "description": "simple module for icontact api using iojs",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,5 +21,13 @@
   "homepage": "https://github.com/eflex/icontact",
   "dependencies": {
     "request": "^2.53.0"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "gulp": "^3.0.0",
+    "gulp-babel": "^5.1.0",
+    "gulp-uglify": "^1.2.0",
+    "mocha": "^2.2.5",
+    "should": "^6.0.3"
   }
 }
