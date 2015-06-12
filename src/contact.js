@@ -1,6 +1,4 @@
 "use strict";
-var type = "contacts"
-
 /*
   info = {
     email: ...,
@@ -10,60 +8,38 @@ var type = "contacts"
   }
 */
 
-export default class Contact {
+var type = "contacts"
+import Base from "./base";
 
-  constructor(iContact) {
-    this.i = iContact
+export default class Contact extends Base {
+
+  count() {
+    return super.count([type])
+  }
+
+  create(newData) {
+    if (!newData || !newData.email) throw new Error("Email is required.")
+    return super.create(newData, [type], type);
   }
 
 
-
-  value(data) {
-    switch (typeof(data)) {
-      case "string":
-        data = {
-          email: data
-        }
-        break;
-      default:
-        if (!data.email) throw new Error("Email is required")
-    }
-    this.data = data;
-    return this;
+  read(limit, offset) {
+    return super.read(limit, offset, [type], type)
   }
 
-  create() {
-    if (!this.data) throw new Error("Call .value() to set values first")
-    return this.i.process([type], "POST", [this.data])
-      .then(function(data) {
-        return Promise.resolve(data.contacts.pop())
-      })
-  }
-
-  all() {
-    return this.i.process([type])
-      .then(function(data) {
-        return Promise.resolve(data.contacts)
-      })
-  }
-
-  update(id) {
-    if (!this.data) throw new Error("Call .value() to set values first")
+  update(id, updatedRec) {
     let urlPath = [type, id]
-    return this.i.process(urlPath, "POST", this.data)
-      .then(function(data) {
-        return Promise.resolve(data.contact)
-      })
+    return super.update(id, updatedRec, urlPath, 'contact')
   }
 
   delete(id) {
-    let urPath = [type, id]
-    return this.i.process(urPath, "DELETE")
+    return super.delete(id, [type, id]);
   }
+
 
   subscriptions() {
     let urlPath = ["subscriptions"]
-    return this.i.process(urlPath)
+    return this.process(urlPath)
       .then(function(data) {
         return Promise.resolve(data.subscriptions)
       })
@@ -76,7 +52,7 @@ export default class Contact {
       listId: listId,
       status: "normal"
     }
-    return this.i.process(urlPath, "POST", [data])
+    return this.process(urlPath, "POST", [data])
       .then(function(data) {
         return Promise.resolve(data.subscriptions.pop())
       })
@@ -89,7 +65,7 @@ export default class Contact {
   //     status: "unsubscribed"
   //   }
 
-  //   return this.i.process(urlPath, "POST", data)
+  //   return this.process(urlPath, "POST", data)
   //     .then(function(data) {
   //       return Promise.resolve(data.subscription)
   //     })

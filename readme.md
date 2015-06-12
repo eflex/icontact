@@ -22,55 +22,25 @@ var config = {
 }
 
 // INITIALIZE ICONTACT
-var icontact = new iContact(config)
+var iContact = require("icontact");
 
-var list = icontact.List()
-list
-  .all()
-  // .delete(id)
-  // .value("new List")
-  // .create()
-  // .update(id)
-  .then(...)
-
-var contact = iContact.Contact()
+var contact = new iContact.Contact(config)
 contact
-  .all()
+  .read(1000) // read(limit, offset)
+  //.count()
   // .delete(id)
   // .subscriptions()
   // .subscribe(contactId, listId)
-  // .value("email")
-  // .create()
-  // .update(id)
+  // .create({email: "your@email.address"})
+  // .update(id, {firstName: "Your FirstName", lastName: "Your last name"})
   .then(...)
 
-
-
-var segment = iContact.Segment()
-segment
-  .all()
-  // .delete(id)
-  // .value("email")
-  // .create(listId)
-  // .update(id)
-  .then(...)
-
-var criteria = iContact.Criteria(segmentId)
-criteria
-  .all()
-  // .delete(id)
-  // .value(fielname, value, operator)
-  // .create()
-  // .update(id)
-  .then(...)
-
-var customfield = iContact.CustomField()
-customfield
-  .all()
-  // .delete(id)
-  // .value(newFieldName)
-  // .create()
-  // .update(id)
-  .then(...)
-
+var message = new iContact.Message(config);
+message
+.read(1000) // read(limit, offset)
+//.count()
+// .delete(id)
+// .readClicks(messageId)
+// .totalClicks(messageId)
+.then(...)
 ```

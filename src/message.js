@@ -1,33 +1,26 @@
 "use strict";
+
+import Base from "./base";
 var type = "messages"
 
-/*
-  info = {
-    email: ...,
-    firstName: ...,
-    lastName: ...,
-    ....
-  }
-*/
+export default class Message extends Base {
 
-export default class Message {
 
-  constructor(iContact) {
-    this.i = iContact
+  count() {
+    return super.count([type])
   }
-  all() {
-    return this.i.process([type])
-      .then(function(data) {
-        return Promise.resolve(data.messages)
-      });
+  read(limit, offset) {
+    return super.read(limit, offset, [type], type)
   }
 
-  clicks(messageId) {
+  readClicks(messageId, limit, offset) {
     if (!messageId) throw new Error("messageId is required");
-    return this.i.process([type, messageId.toString(), 'clicks'])
-      .then(function(data) {
-        return Promise.resolve(data.clicks)
-      })
+    return super.read(limit, offset, [type, messageId.toString(), "clicks"],
+      "clicks")
+  }
+
+  totalClicks(messageId) {
+    return super.count([type, messageId.toString(), 'clicks'])
   }
 
 }
