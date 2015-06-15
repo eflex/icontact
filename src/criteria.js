@@ -1,10 +1,12 @@
 "use strict";
 var type = "segments"
+var type2 = "criteria"
+import Base from "./base";
 
-export default class Criteria {
-  constructor(iContact, segmentId) {
-    this.i = iContact;
-    this.segmentId = segmentId
+export default class Criteria extends Base {
+  constructor(segmentId, options, production) {
+    super(options, production);
+    this.segmentId = segmentId.toString()
   }
 
   // https: //app.sandbox.icontact.com/icp/a/{accountid}/c/{clientfolderid}/segments/{segmentid}/criteria
@@ -16,51 +18,28 @@ export default class Criteria {
     }
   */
 
-  value(fieldName, values, operator) {
-    if (!fieldName) throw new Error("Criteria fieldname is required")
-    if (!values) throw new Error("Criteria value is required")
-    if (!(values instanceof Array)) values = [values]
-    if (!operator) operator = "contains"
+  create(newRec) {
+    if (!newRec && (!newRec.fieldName || !newRec.values)) throw new Error(
+      "fieldName and values are required in craete a new criteria")
+    if (!(newRec.values instanceof Array)) newRec.values = [newRec.values]
+    if (!newRec.operator) newRec.operator = "contains"
 
-    this.data = {
-      fieldName: fieldName,
-      values: values,
-      operator: operator
-    }
-
-    return this;
+    let urlPath = [type, this.segmentId, type2]
+    return super.create(newRec, urlPath, type2)
   }
 
-  create() {
-    if (!this.data) throw new Error("Call .value() first to set data")
-    let urlPath = [type, this.segmentId, "criteria"]
-    return this.i.process(urlPath, "POST", [this.data])
-      .then(function(data) {
-        return Promise.resolve(data.criteria.pop())
-      })
+  read(limit, offset) {
+    let arrPath = [type, this.segmentId, type2]
+    return super.read(limit, offset, arrPath, type2)
   }
 
-  all() {
-
-    let arrPath = [type, this.segmentId, "criteria"]
-    return this.i.process(arrPath)
-      .then(function(data) {
-        return Promise.resolve(data.criteria)
-      })
-  }
-
-  update(id) {
-    if (!this.data) throw new Error("Call .value() first to set data")
-    console.log(id.toString())
-    let urlPath = [type, this.segmentId, "criteria", id.toString()]
-    return this.i.process(urlPath, "POST", this.data)
-      .then(function(data) {
-        return Promise.resolve(data.criterion)
-      })
+  update(id, updatedRec) {
+    let urlPath = [type, this.segmentId, type2, id.toString()]
+    return super.update(updatedRec, urlPath, "criterion")
   }
 
   delete(id) {
-    let urlPath = [type, this.segmentId, "criteria", id.toString()]
-    return this.i.process(urlPath, "DELETE")
+    let urlPath = [type, this.segmentId, type2, id.toString()]
+    return super.process(urlPath, "DELETE")
   }
 }

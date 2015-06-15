@@ -1,59 +1,30 @@
 "use strict";
-var Segment = require("./segment")
 var type = "lists"
+import Base from "./base"
 
-export default class List {
-  constructor(iContact) {
-    this.i = iContact;
-  }
+export default class List extends Base {
 
-  value(data) {
-
-    switch (typeof(data)) {
-      case "string":
-        data = {
-          "name": data
-        }
-        break;
-      default:
-        if (!data.name) throw new Error("Name is required")
+  count() {
+      return super.count([type])
     }
-    this.data = data;
-    return this;
+    // data name of the list
+  create(newRec) {
+    if (!newRec && !newRec.name) throw new Error(
+      "name is required to create a new list")
+    return super.create(newRec, [type], type)
   }
 
-  /* the CRUD */
-
-  // data name of the list
-  create() {
-    if (!this.data) throw new Error("Call .value() to set values first")
-    console.log("data", this.data)
-    return this.i.process([type], "POST", [this.data])
-      .then(function(data) {
-        return Promise.resolve(data.lists.pop())
-      })
+  read(limit, offset) {
+    return super.read(limit, offset, [type], type)
   }
 
-  all() {
-    return this.i.process([type])
-      .then(function(data) {
-        return Promise.resolve(data.lists)
-      })
-
-  }
-
-  update(id) {
-    if (!this.data) throw new Error("Call .value() to set values first")
+  update(id, updatedRec) {
     let urlPath = [type, id.toString()]
-
-    return this.i.process(urlPath, "POST", this.data)
-      .then(function(data) {
-        return Promise.resolve(data.list)
-      })
+    return super.update(updatedRec, urlPath, "list")
   }
 
   delete(id) {
     let urlPath = [type, id.toString()]
-    return this.i.process(urlPath, "DELETE")
+    return super.process(urlPath, "DELETE")
   }
 }

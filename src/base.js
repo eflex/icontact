@@ -36,27 +36,8 @@ export default class Base {
 
   }
 
-  // validateArray(arr, requiredField) {
-  //   let err = null;
-  //   for (let i in arr) {
-  //     let data = arr[i]
-  //     if (!data[requiredField]) {
-  //       err = new Error(requiredField + " is required")
-  //       break;
-  //     }
-  //   }
-  //   if (err) throw err;
-  //   return arr;
-  // }
-
-  checkUrlPath(urlPath) {
-    if (urlPath instanceof Array) return true;
-
-    throw new Error("urlPath should an array");
-  }
-
   create(newData, urlPath, recType) {
-    this.checkUrlPath(urlPath);
+    if (!newData) throw new Erro("No date provided to create new record");
     return this.process(urlPath, "POST", [newData])
       .then(function(rec) {
         return Promise.resolve(rec[recType].pop())
@@ -64,25 +45,18 @@ export default class Base {
   }
 
   read(limit, offset, urlPath, recType) {
-    this.checkUrlPath(urlPath);
-    this.limit = limit || 100;
-    this.offset = offset || 0;
     return this.process(urlPath)
       .then(function(data) {
         return Promise.resolve(data[recType])
       })
   }
 
-  update(id, updatedData, urlPath, type) {
-    this.checkUrlPath(urlPath)
+  update(updatedData, urlPath, type) {
+    if (!updatedData) throw new Error("No updated record provided");
     return this.process(urlPath, "POST", updatedData)
       .then(function(data) {
         return Promise.resolve(data[type])
       })
-  }
-
-  delete(id, urlPath) {
-    return this.process(urlPath, "DELETE")
   }
 
   count(thePath) {
@@ -134,7 +108,7 @@ export default class Base {
         // let errorMessage = "Server responded with status: " + response.statusCode
         // return reject(new Error(errorMessage))
         // }
-
+        // console.log(body)
         if (body.errors) return reject(new Error(body.errors.pop()))
         if (body.warnings) return reject(new Error(body.warnings.pop()))
 

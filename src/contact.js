@@ -18,7 +18,8 @@ export default class Contact extends Base {
   }
 
   create(newData) {
-    if (!newData || !newData.email) throw new Error("Email is required.")
+    if (!newData || !newData.email) throw new Error(
+      "Email is required in creating new contact.")
     return super.create(newData, [type], type);
   }
 
@@ -28,12 +29,12 @@ export default class Contact extends Base {
   }
 
   update(id, updatedRec) {
-    let urlPath = [type, id]
-    return super.update(id, updatedRec, urlPath, 'contact')
+    let urlPath = [type, id.toString()]
+    return super.update(updatedRec, urlPath, 'contact')
   }
 
   delete(id) {
-    return super.delete(id, [type, id]);
+    return super.process([type, id.toString()], "DELETE");
   }
 
 

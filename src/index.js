@@ -14,18 +14,11 @@
 
 "use strict";
 
-
-// import List from "./list";
-import Contact from "./contact";
-// import CustomField from "./customfield";
-// import Segment from "./segment";
-// import Criteria from "./criteria";
-import Message from "./message";
-
-export {
-  Contact as Contact
-}
-
-export {
-  Message as Message
+module.exports = {
+  Contact: require("./contact"),
+  Segment: require("./segment"),
+  Message: require("./message"),
+  List: require("./list"),
+  CustomField: require("./<!--  -->customfield"),
+  Criteria: require("./criteria")
 }

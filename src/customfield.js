@@ -3,7 +3,7 @@ var type = "customfields"
 
 export default class CustomField {
   constructor(iContact) {
-    this.i = iContact;
+    this = iContact;
     this.data = null;
   }
 
@@ -37,14 +37,14 @@ export default class CustomField {
 
   create() {
     if (!this.data) throw new Error("Call .value() to set values first")
-    return this.i.process([type], "POST", [this.data])
+    return this.process([type], "POST", [this.data])
       .then(function(data) {
         return Promise.resolve(data.customfields.pop())
       })
   }
 
   all() {
-    return this.i.process([type])
+    return this.process([type])
       .then(function(data) {
         return Promise.resolve(data.customfields)
       })
@@ -53,7 +53,7 @@ export default class CustomField {
   update(id) {
     if (!this.data) throw new Error("Call .value() to set values first")
     let urlPath = [type, id.toString()]
-    return this.i.send(type, "POST", this.data)
+    return this.send(type, "POST", this.data)
       .then(function(data) {
         return Promise.resolve(data.customfield)
       })
@@ -61,6 +61,6 @@ export default class CustomField {
 
   delete(id) {
     let urlPath = [type, id.toString()]
-    return this.i.process(urlPath, "DELETE")
+    return this.process(urlPath, "DELETE")
   }
 }

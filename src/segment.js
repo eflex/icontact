@@ -1,60 +1,31 @@
 "use strict";
 var type = "segments"
+import Base from "./base";
 
-export default class Segment {
-  constructor(iContact) {
-    this.i = iContact;
+export default class Segment extends Base {
+
+  count() {
+    return super.count([type])
   }
-
-  value(data) {
-    switch (typeof(data)) {
-      case "string":
-        data = {
-          name: data
-        }
-        break;
-      default:
-        if (!data.name) throw new Error("Name is required")
-    }
-    this.data = data;
-    return this;
-  }
-
-  /* the CRUD */
 
   // data name of the list
   // listId is required on create
-  create(listId) {
-    if (!this.data) throw new Error("Call .value() first to set data")
-    if (!listId) throw new Error("List id is requried on creation")
-
-    // update this.data to include listId
-    this.data.listId = listId;
-
-    return this.i.process([type], "POST", [this.data])
-      .then(function(data) {
-        return Promise.resolve(data.segments.pop())
-      })
+  create(newRec) {
+    if (!newRec && (!newRec.listId || !newRec.name)) throw new Error(
+      "listId and name are requried on creating a segment")
+    return super.create(newRec, [type], type)
   }
 
-  all() {
-    return this.i.process([type])
-      .then(function(data) {
-        return Promise.resolve(data.segments)
-      })
-
+  read(limit, offset) {
+    return super.read(limit, offset, [type], type)
   }
 
-  update(id) {
-    if (!this.data) throw new Error("Call .value(0 first to set data")
-
-    return this.i.process([type, id.toString()], "POST", this.data)
-      .then(function(data) {
-        return Promise.resolve(data.segment)
-      })
+  update(id, updatedRec) {
+    let urlPath = [type, id.toString()]
+    return super.update(id, updatedRec, urlPath, "segment")
   }
 
   delete(id) {
-    return this.i.process([type, id.toString()], "DELETE")
+    return super.process([type, id.toString()], "DELETE")
   }
 }
