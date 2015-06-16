@@ -25,6 +25,6 @@ export default class List extends Base {
 
   delete(id) {
     let urlPath = [type, id.toString()]
-    return super.process(urlPath, "DELETE")
+    return this.process(urlPath, "DELETE")
   }
 }

@@ -25,4 +25,16 @@ export default class Message extends Base {
     return super.count([type, messageId.toString(), 'clicks'])
   }
 
+  readOpen(messageId, limit, offset) {
+    if (!messageId) throw new Error(
+      "messageId is required to view message clicks");
+    return super.read(limit, offset, [type, messageId.toString(), "opens"],
+      "opens")
+  }
+
+  countOpen(messageId) {
+    return super.count([type, messageId.toString(), 'opens'])
+  }
+
+
 }

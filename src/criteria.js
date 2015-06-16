@@ -5,6 +5,8 @@ import Base from "./base";
 
 export default class Criteria extends Base {
   constructor(segmentId, options, production) {
+    if (!segmentId) throw new Error(
+      "segmentId is required in accessing Criteria")
     super(options, production);
     this.segmentId = segmentId.toString()
   }
@@ -40,6 +42,6 @@ export default class Criteria extends Base {
 
   delete(id) {
     let urlPath = [type, this.segmentId, type2, id.toString()]
-    return super.process(urlPath, "DELETE")
+    return this.process(urlPath, "DELETE")
   }
 }

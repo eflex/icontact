@@ -12,7 +12,7 @@ export default class Segment extends Base {
   // listId is required on create
   create(newRec) {
     if (!newRec && (!newRec.listId || !newRec.name)) throw new Error(
-      "listId and name are requried on creating a segment")
+      "listId and name are required in creating a segment")
     return super.create(newRec, [type], type)
   }
 
@@ -26,6 +26,6 @@ export default class Segment extends Base {
   }
 
   delete(id) {
-    return super.process([type, id.toString()], "DELETE")
+    return this.process([type, id.toString()], "DELETE")
   }
 }

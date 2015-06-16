@@ -37,7 +37,6 @@ export default class Base {
   }
 
   create(newData, urlPath, recType) {
-    if (!newData) throw new Erro("No date provided to create new record");
     return this.process(urlPath, "POST", [newData])
       .then(function(rec) {
         return Promise.resolve(rec[recType].pop())
@@ -45,6 +44,8 @@ export default class Base {
   }
 
   read(limit, offset, urlPath, recType) {
+    this.limit = limit;
+    this.offset = offset;
     return this.process(urlPath)
       .then(function(data) {
         return Promise.resolve(data[recType])
@@ -52,7 +53,6 @@ export default class Base {
   }
 
   update(updatedData, urlPath, type) {
-    if (!updatedData) throw new Error("No updated record provided");
     return this.process(urlPath, "POST", updatedData)
       .then(function(data) {
         return Promise.resolve(data[type])
@@ -108,7 +108,7 @@ export default class Base {
         // let errorMessage = "Server responded with status: " + response.statusCode
         // return reject(new Error(errorMessage))
         // }
-        // console.log(body)
+
         if (body.errors) return reject(new Error(body.errors.pop()))
         if (body.warnings) return reject(new Error(body.warnings.pop()))
 

@@ -22,12 +22,12 @@ var config = {
 }
 
 // INITIALIZE ICONTACT
-var iContact = require("icontact");
+var iContact = require("icontact")(config);
 
-var contact = new iContact.Contact(config)
+var contact = iContact.Contact(config)
 contact
-  .read(1000) // read(limit, offset)
-  //.count()
+  .count()
+  // .read(limit, offset)
   // .delete(id)
   // .subscriptions()
   // .subscribe(contactId, listId)
@@ -37,10 +37,14 @@ contact
 
 var message = new iContact.Message(config);
 message
-.read(1000) // read(limit, offset)
-//.count()
-// .delete(id)
-// .readClicks(messageId)
-// .totalClicks(messageId)
-.then(...)
+  // read(limit, offset)
+  .count()
+  // .delete(id)
+
+  // .readClick(messageId)
+  // .countClick(messageId)
+
+  // .readOpen(messageId)
+  // .countOpen(messageId)
+  .then(...)
 ```

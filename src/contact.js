@@ -34,7 +34,7 @@ export default class Contact extends Base {
   }
 
   delete(id) {
-    return super.process([type, id.toString()], "DELETE");
+    return this.process([type, id.toString()], "DELETE");
   }
 
 
