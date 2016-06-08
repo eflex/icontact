@@ -23,14 +23,14 @@ export default class Base {
 
     this.headers = {
       "Accept": "application/json",
-      "Content-Type": "appliiocation/json",
+      "Content-Type": "application/json",
       "Api-Version": "2.0",
       "Api-AppId": this.appId,
       "Api-Username": this.username,
       "API-Password": this.password,
     }
     this.domain = (production) ?
-      "https://app.icontact.com/" : "https://app.sandbox.icontact.com/"
+      "https://api.icpro.co/" : "https://app.sandbox.icontact.com/"
     this.baseUrl = path.join("icp", "a", this.accountId.toString(), "c", this
       .clientFolderId.toString())
 
@@ -93,7 +93,7 @@ export default class Base {
     // this should only work for post, put, delete?
     if (formData) {
       console.log(formData)
-      requestOption.form = formData
+      requestOption.form = JSON.stringify(formData);
     }
 
 
